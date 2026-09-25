@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "mysql-bridge": {
+      "command": "node",
+      "args": ["/absolute/path/to/mysql-bridge-mcp/dist/server.js"],
+      "env": { "MYSQL_HOST": "127.0.0.1", "MYSQL_PORT": "3306", "MYSQL_USER": "mysql_reader", "MYSQL_PASSWORD": "your-password", "MYSQL_DATABASE": "app", "MYSQL_READ_ONLY": "true" }
+    }
+  }
+}
