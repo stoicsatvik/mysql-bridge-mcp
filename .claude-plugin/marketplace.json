@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "mysql-bridge-marketplace",
+  "description": "Read-only MySQL tools for AI coding agents.",
+  "owner": { "name": "Stoic Solutions" },
+  "plugins": [
+    {
+      "name": "mysql-bridge",
+      "source": "./",
+      "description": "Read-only MySQL schema discovery and SQL queries.",
+      "version": "0.2.0",
+      "author": { "name": "Stoic Solutions" },
+      "category": "development",
+      "homepage": "https://github.com/stoicsatvik/mysql-bridge-mcp"
+    }
+  ]
+}

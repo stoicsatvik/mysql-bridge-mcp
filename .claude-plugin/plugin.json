@@ -1,0 +1,32 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "mysql-bridge",
+  "displayName": "MySQL Bridge",
+  "version": "0.2.0",
+  "description": "Read-only MySQL schema and query tools for Claude Code.",
+  "author": { "name": "Stoic Solutions", "url": "https://github.com/stoicsatvik/mysql-bridge-mcp" },
+  "homepage": "https://github.com/stoicsatvik/mysql-bridge-mcp",
+  "repository": "https://github.com/stoicsatvik/mysql-bridge-mcp",
+  "license": "MIT",
+  "keywords": ["mysql", "database", "mcp", "sql"],
+  "mcpServers": {
+    "mysql-bridge": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/dist/plugin-server.mjs"],
+      "env": {
+        "MYSQL_HOST": "${user_config.mysql_host}",
+        "MYSQL_PORT": "${user_config.mysql_port}",
+        "MYSQL_USER": "${user_config.mysql_user}",
+        "MYSQL_PASSWORD": "${user_config.mysql_password}",
+        "MYSQL_DATABASE": "${user_config.mysql_database}"
+      }
+    }
+  },
+  "userConfig": {
+    "mysql_host": { "type": "string", "title": "MySQL host", "description": "Hostname or IP address for your MySQL server.", "required": true },
+    "mysql_port": { "type": "number", "title": "MySQL port", "description": "MySQL listener port.", "default": 3306, "min": 1, "max": 65535 },
+    "mysql_user": { "type": "string", "title": "MySQL user", "description": "Use a dedicated account with read-only permissions.", "required": true },
+    "mysql_password": { "type": "string", "title": "MySQL password", "description": "Password for the read-only MySQL account.", "required": true, "sensitive": true },
+    "mysql_database": { "type": "string", "title": "Default database", "description": "Database to expose through this plugin.", "required": true }
+  }
+}

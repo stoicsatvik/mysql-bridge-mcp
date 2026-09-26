@@ -1,4 +1,5 @@
 node_modules/
-dist/
+dist/*
+!dist/plugin-server.mjs
 .env
 .DS_Store

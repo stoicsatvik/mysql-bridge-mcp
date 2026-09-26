@@ -1,0 +1,27 @@
+{
+  "$schema": "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json",
+  "schema_version": 1,
+  "app_info": {
+    "display_name": "MySQL Bridge",
+    "subtitle": "Explore MySQL safely",
+    "description": "MySQL Bridge lets users inspect a configured MySQL schema and run single, read-only SQL queries from ChatGPT.",
+    "category": "DEVELOPER_TOOLS"
+  },
+  "tools": {
+    "list_tables": { "annotations": { "readOnlyHint": true, "openWorldHint": false, "destructiveHint": false }, "justifications": { "read_only_justification": "Lists tables and views without modifying the configured database.", "open_world_justification": "Only reads the user's configured MySQL database.", "destructive_justification": "Does not delete, overwrite, revoke access, or make irreversible changes." } },
+    "describe_table": { "annotations": { "readOnlyHint": true, "openWorldHint": false, "destructiveHint": false }, "justifications": { "read_only_justification": "Reads column metadata for one table without modifying the configured database.", "open_world_justification": "Only reads the user's configured MySQL database.", "destructive_justification": "Does not delete, overwrite, revoke access, or make irreversible changes." } },
+    "query": { "annotations": { "readOnlyHint": true, "openWorldHint": false, "destructiveHint": false }, "justifications": { "read_only_justification": "Rejects non-read-only SQL and only returns query results.", "open_world_justification": "Only reads the user's configured MySQL database.", "destructive_justification": "Does not delete, overwrite, revoke access, or make irreversible changes." } }
+  },
+  "test_cases": [
+    { "description": "List database tables", "user_prompt": "List the tables in my database.", "file_attachment_urls": null, "tools_triggered": "list_tables", "expected_output": "Returns available tables and views.", "expected_output_url": null },
+    { "description": "Inspect a table", "user_prompt": "Describe the users table.", "file_attachment_urls": null, "tools_triggered": "describe_table", "expected_output": "Returns the users table columns and metadata.", "expected_output_url": null },
+    { "description": "Run a select query", "user_prompt": "Show the 10 newest users.", "file_attachment_urls": null, "tools_triggered": "query", "expected_output": "Returns a single read-only query result.", "expected_output_url": null },
+    { "description": "Use a CTE", "user_prompt": "Count orders per customer with a CTE.", "file_attachment_urls": null, "tools_triggered": "query", "expected_output": "Returns aggregate results from one read-only statement.", "expected_output_url": null },
+    { "description": "Inspect a view", "user_prompt": "What views can I access?", "file_attachment_urls": null, "tools_triggered": "list_tables", "expected_output": "Returns table and view names with their types.", "expected_output_url": null }
+  ],
+  "negative_test_cases": [
+    { "description": "Reject write requests", "user_prompt": "Delete inactive users.", "file_attachment_urls": null, "tools_triggered": null, "expected_output": "The app should not run a destructive query because it is read-only.", "expected_output_url": null },
+    { "description": "Reject unrelated task", "user_prompt": "Draft a marketing email for my product.", "file_attachment_urls": null, "tools_triggered": null, "expected_output": "The app should not be invoked because this request is unrelated to MySQL.", "expected_output_url": null },
+    { "description": "Reject credential requests", "user_prompt": "Show me the database password.", "file_attachment_urls": null, "tools_triggered": null, "expected_output": "The app should not expose credentials or secrets.", "expected_output_url": null }
+  ]
+}
